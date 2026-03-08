@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:huzaifa_portfolio/home/skill_page.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'ChatScreen.dart';
 
 const kBg      = Color(0xFF020B18);
 const kBg2     = Color(0xFF051525);
@@ -38,26 +41,21 @@ class _FirstHomeState extends State<FirstHome>
   late Animation<Offset>  _slideUp;
   late Animation<double> _onlineAnim;
 
-  // ── data ──────────────────────────────────────
+
   static const _projects = [
     {
       'title': 'Privae Chef App',
       'desc':  'Hire personal chefs & enjoy gourmet meals at home.',
-      'tech':  ['Flutter', 'Firebase', 'REST API'],
-      'emoji': '🍽️',
+      'tech':  ['Apps Store', 'Google Store',],
+      'emoji': '',
     },
     {
       'title': 'JobsinApp',
       'desc':  'Find jobs near you with map & AI tools.',
-      'tech':  ['Flutter', 'Google Maps', 'Node.js'],
-      'emoji': '💼',
+      'tech':  ['Apps Store', 'Google Store',],
+      'emoji': '',
     },
-    {
-      'title': 'Huzaif Portfolio',
-      'desc':  'Personal portfolio app built with Flutter.',
-      'tech':  ['Flutter', 'Dart', 'Animation'],
-      'emoji': '✨',
-    },
+
   ];
 
   @override
@@ -112,13 +110,11 @@ class _FirstHomeState extends State<FirstHome>
     if (await canLaunchUrl(u)) await launchUrl(u);
   }
 
-  // ═══════════════════════════════════════════════
-  //  BUILD
-  // ═══════════════════════════════════════════════
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBg,
+      backgroundColor: const Color(0xFF0D0B1A),
       body: Stack(children: [
         // ── animated background ──
         AnimatedBuilder(
@@ -142,7 +138,7 @@ class _FirstHomeState extends State<FirstHome>
                 _section('About Me',    '👤', _aboutCard()),
                 _section('Skills', '⚡', _skillsButton()),
                 _section('Projects',    '🚀', _projectsWidget()),
-                _section('Get In Touch','📬', _contactWidget()),
+                _section('Get In Touch', '📬', const ContactSection()),
                 _footer(),
               ]),
             ),
@@ -223,21 +219,33 @@ class _FirstHomeState extends State<FirstHome>
           style: TextStyle(color: kMuted.withOpacity(.9), fontSize: 15, height: 1.75),
         ),
         const SizedBox(height: 30),
-        // buttons
+
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           _PrimaryBtn('🚀  My Projects', () {}),
           const SizedBox(width: 12),
-          _SecondaryBtn('✉️  Hire Me',
-                  () => _open('mailto:huzaifa0133@gmail.com')),
+          _SecondaryBtn('✉️  Hire Me', () => _open('mailto:huzaifa0133@gmail.com')),
         ]),
-        const SizedBox(height: 26),
-        // social icons
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _SocBtn('⌨', () => _open('https://github.com/huzaifa-sani')),
-          _SocBtn('💼', () => _open('https://www.linkedin.com/in/huzaifa-sani-525b36304/')),
-          _SocBtn('f',  () => _open('https://www.facebook.com/hoya.ipha.sani')),
-          _SocBtn('✉',  () => _open('mailto:huzaifa0133@gmail.com')),
-        ]),
+        const SizedBox(height: 12),
+
+        GestureDetector(
+          onTap: () => _open('your_cv_link'),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: kCyan.withOpacity(.25), width: 1),
+              color: kCyan.withOpacity(.04),
+            ),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              Icon(Icons.download_rounded, color: kCyan.withOpacity(.7), size: 16),
+              const SizedBox(width: 8),
+              Text('Download CV', style: TextStyle(
+                color: kCyan.withOpacity(.8), fontSize: 13, fontWeight: FontWeight.w600,
+                letterSpacing: .5,
+              )),
+            ]),
+          ),
+        ),
       ]),
     );
   }
@@ -316,15 +324,13 @@ class _FirstHomeState extends State<FirstHome>
     );
   }
 
-  // ═══════════════════════════════════════════════
-  //  STATS
-  // ═══════════════════════════════════════════════
   Widget _statsRow() {
     final items = [
       {'v': '3+',   'l': 'Projects'},
       {'v': '2+',   'l': 'Years Exp'},
       {'v': '100%', 'l': 'Passion'},
     ];
+
     return Row(
       children: items.map((s) => Expanded(
         child: Container(
@@ -351,9 +357,7 @@ class _FirstHomeState extends State<FirstHome>
     );
   }
 
-  // ═══════════════════════════════════════════════
-  //  ABOUT
-  // ═══════════════════════════════════════════════
+
   Widget _aboutCard() {
     return Container(
       padding: const EdgeInsets.all(22),
@@ -369,9 +373,14 @@ class _FirstHomeState extends State<FirstHome>
         ],
       ),
       child: const Text(
-        'I\'m a passionate Flutter developer who loves crafting clean, '
-            'intuitive & pixel-perfect mobile experiences. I turn ideas into '
-            'polished apps — from smooth animations to seamless API integrations.\n\n'
+        'Hi, I\'m Huzaifa Sani — a Flutter developer from Dhaka, Bangladesh. '
+            'Though I\'m early in my journey with 5+ months of hands-on experience, '
+            'I\'ve already shipped real apps to both the App Store & Google Play — '
+            'including a personal chef booking app and a job-finding platform '
+            'with map & AI features.\n\n'
+            'I specialize in clean UI design, smooth animations, Firebase integration, '
+            'and REST API connections. I love turning ideas into polished, '
+            'pixel-perfect mobile experiences that users actually enjoy.\n\n'
             '💡 Currently open to freelance projects & full-time opportunities.',
         style: TextStyle(color: Color(0xFF94A3B8), fontSize: 14.5, height: 1.85),
       ),
@@ -479,10 +488,6 @@ class _FirstHomeState extends State<FirstHome>
     );
   }
 }
-
-// ═══════════════════════════════════════════════
-//  OCEAN BACKGROUND PAINTER
-// ═══════════════════════════════════════════════
 class _OceanBgPainter extends CustomPainter {
   final double t;
   _OceanBgPainter(this.t);
@@ -492,43 +497,38 @@ class _OceanBgPainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // base deep navy
+    // ── base: very deep navy-black ──
     canvas.drawRect(
       Rect.fromLTWH(0, 0, w, h),
-      Paint()..shader = const LinearGradient(
-        begin: Alignment.topLeft, end: Alignment.bottomRight,
-        colors: [Color(0xFF020B18), Color(0xFF030F20), Color(0xFF041322), Color(0xFF020B18)],
-        stops: [0, .3, .65, 1],
-      ).createShader(Rect.fromLTWH(0, 0, w, h)),
+      Paint()..color = const Color(0xFF0D0B1A),
     );
 
-    // mesh blobs
-    _blob(canvas, Offset(w * (.08 + t * .06),  h * (.05 + t * .04)),  w * .7, kCyan,  .13);
-    _blob(canvas, Offset(w * (.90 - t * .05),  h * (.08 + t * .03)),  w * .6, kCyan2, .10);
-    _blob(canvas, Offset(w * (.50 + t * .04),  h * (.50 - t * .03)),  w * .5, kTeal,  .08);
-    _blob(canvas, Offset(w * (.12 + t * .03),  h * (.88 - t * .02)),  w * .5, kCyan,  .10);
-    _blob(canvas, Offset(w * (.88 - t * .04),  h * (.82 + t * .03)),  w * .45,kCyan2, .08);
+    _blob(canvas, Offset(w * (.0 + t * .04), h * .0),   w * .55, kCyan,                    .13); // ছিল .07
+    _blob(canvas, Offset(w * (1.0 - t * .04), h * .12), w * .50, const Color(0xFF7C3AED),  .14); // ছিল .08
+    _blob(canvas, Offset(w * (.5 + t * .02), h * 1.0),  w * .50, kTeal,                    .11); // ছিল .06
 
-    // dot grid
-    final dot = Paint()..color = kCyan.withOpacity(.04);
-    const step = 48.0;
-    for (double x = 0; x < w; x += step) {
-      for (double y = 0; y < h; y += step) {
-        canvas.drawCircle(Offset(x, y), 1, dot);
-      }
-    }
 
-    // floating particles
-    final rng = Random(7);
-    for (int i = 0; i < 45; i++) {
+    // ── very faint hex-dot grid ──
+    final dot = Paint()..color = kCyan.withOpacity(.022);
+    const step = 44.0;
+    for (double x = 0; x < w; x += step)
+      for (double y = 0; y < h; y += step)
+        canvas.drawCircle(Offset(x, y), .7, dot);
+
+    // ── minimal drifting particles ──
+    final rng = Random(99);
+    for (int i = 0; i < 28; i++) {
       final px = rng.nextDouble() * w;
-      final py = (rng.nextDouble() * h + t * 90) % h;
-      final r  = rng.nextDouble() * 1.5 + .4;
-      final op = rng.nextDouble() * .35 + .06;
-      canvas.drawCircle(
-        Offset(px, py), r,
-        Paint()..color = (i % 3 == 0 ? kCyan : i % 3 == 1 ? kTeal : kIce).withOpacity(op),
-      );
+      final py = (rng.nextDouble() * h + t * 50) % h;
+      final r  = rng.nextDouble() * 1.1 + .3;
+      final op = rng.nextDouble() * .14 + .04;
+      final color = i % 3 == 0
+          ? kCyan
+          : i % 3 == 1
+          ? const Color(0xFF7C3AED)
+          : kTeal;
+      canvas.drawCircle(Offset(px, py), r,
+          Paint()..color = color.withOpacity(op));
     }
   }
 
@@ -536,7 +536,7 @@ class _OceanBgPainter extends CustomPainter {
     canvas.drawCircle(c, r, Paint()
       ..shader = RadialGradient(colors: [
         color.withOpacity(opacity),
-        color.withOpacity(opacity * .4),
+        color.withOpacity(opacity * .35),
         Colors.transparent,
       ]).createShader(Rect.fromCircle(center: c, radius: r)));
   }
@@ -545,33 +545,274 @@ class _OceanBgPainter extends CustomPainter {
   bool shouldRepaint(_OceanBgPainter o) => o.t != t;
 }
 
-
-class _ShimmerName extends StatelessWidget {
+class _ShimmerName extends StatefulWidget {
   final Animation<double> anim;
   final String text;
   final double size;
 
   const _ShimmerName(this.anim,
-      {this.text = 'Huzaifa Sani', this.size = 38});
+      {this.text = 'Huzaifa Sani', this.size = 20});
+
+  @override
+  State<_ShimmerName> createState() => _ShimmerNameState();
+}
+
+class _ShimmerNameState extends State<_ShimmerName>
+    with TickerProviderStateMixin {
+
+  late AnimationController _glowCtrl;
+  late AnimationController _floatCtrl;
+  late AnimationController _lineCtrl;
+  late AnimationController _entryCtrl;
+
+  late Animation<double> _glowAnim;
+  late Animation<double> _floatAnim;
+  late Animation<double> _lineAnim;
+  late Animation<double> _entryFade;
+  late Animation<double> _entryScale;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // pulsing glow
+    _glowCtrl = AnimationController(
+        vsync: this, duration: const Duration(seconds: 3))
+      ..repeat(reverse: true);
+    _glowAnim = Tween<double>(begin: .5, end: 1.0)
+        .animate(CurvedAnimation(parent: _glowCtrl, curve: Curves.easeInOut));
+
+    // subtle float up-down
+    _floatCtrl = AnimationController(
+        vsync: this, duration: const Duration(seconds: 4))
+      ..repeat(reverse: true);
+    _floatAnim = Tween<double>(begin: -3.0, end: 3.0)
+        .animate(CurvedAnimation(parent: _floatCtrl, curve: Curves.easeInOut));
+
+    // underline expand
+    _lineCtrl = AnimationController(
+        vsync: this, duration: const Duration(seconds: 4))
+      ..repeat(reverse: true);
+    _lineAnim = Tween<double>(begin: .6, end: 1.0)
+        .animate(CurvedAnimation(parent: _lineCtrl, curve: Curves.easeInOut));
+
+    // entry animation
+    _entryCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 900));
+    _entryFade  = CurvedAnimation(parent: _entryCtrl, curve: Curves.easeOut);
+    _entryScale = Tween<double>(begin: .75, end: 1.0)
+        .animate(CurvedAnimation(parent: _entryCtrl, curve: Curves.easeOutBack));
+    _entryCtrl.forward();
+  }
+
+  @override
+  void dispose() {
+    _glowCtrl.dispose(); _floatCtrl.dispose();
+    _lineCtrl.dispose(); _entryCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final parts = widget.text.split(' ');
+    final first = parts.isNotEmpty ? parts[0] : widget.text;
+    final rest  = parts.length > 1 ? parts.sublist(1).join(' ') : '';
+
     return AnimatedBuilder(
-      animation: anim,
-      builder: (_, __) => ShaderMask(
-        shaderCallback: (b) => LinearGradient(
-          begin: Alignment.centerLeft, end: Alignment.centerRight,
-          stops: [
-            (anim.value - .4).clamp(0.0, 1.0),
-            anim.value.clamp(0.0, 1.0),
-            (anim.value + .4).clamp(0.0, 1.0),
-          ],
-          colors: const [kCyan2, kWhite, kTeal],
-        ).createShader(b),
-        child: Text(text, style: TextStyle(
-            color: Colors.white, fontSize: size,
-            fontWeight: FontWeight.w900, letterSpacing: -.5)),
-      ),
+      animation: Listenable.merge([
+        widget.anim, _glowAnim, _floatAnim, _lineAnim, _entryCtrl,
+      ]),
+      builder: (_, __) {
+
+        return FadeTransition(
+          opacity: _entryFade,
+          child: ScaleTransition(
+            scale: _entryScale,
+            child: Transform.translate(
+              offset: Offset(0, _floatAnim.value),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+
+                  // ── name stack ──────────────────────────
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+
+                      // outer halo blur
+                      Opacity(
+                        opacity: _glowAnim.value * .25,
+                        child: Text(
+                          first,
+                          style: GoogleFonts.poppins(
+                            fontSize: widget.size,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: -.5,
+                            foreground: Paint()
+                              ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 28)
+                              ..color = kCyan,
+                          ),
+                        ),
+                      ),
+
+                      // inner tighter blur
+                      Opacity(
+                        opacity: _glowAnim.value * .18,
+                        child: Text(
+                          rest,
+                          style: GoogleFonts.poppins(
+                            fontSize: widget.size,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: -.5,
+                            foreground: Paint()
+                              ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 28)
+                              ..color = kCyan,
+                          ),
+                        ),
+                      ),
+
+                      // actual shimmer text
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+
+                          // ── first word: Huzaifa ──
+                          ShaderMask(
+                            shaderCallback: (b) => LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              stops: [
+                                (widget.anim.value - .55).clamp(0.0, 1.0),
+                                widget.anim.value.clamp(0.0, 1.0),
+                                (widget.anim.value + .55).clamp(0.0, 1.0),
+                              ],
+                              colors: const [kCyan2, kWhite, kCyan],
+                            ).createShader(b),
+                            child: Text(
+                              first,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: widget.size,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: -.5,
+                                shadows: [
+                                  Shadow(
+                                    color: kCyan.withOpacity(_glowAnim.value * .6),
+                                    blurRadius: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          if (rest.isNotEmpty) ...[
+                            const SizedBox(width: 12),
+
+                            // ── second word: Sani ──
+                            ShaderMask(
+                              shaderCallback: (b) => LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                stops: [
+                                  (widget.anim.value - .45).clamp(0.0, 1.0),
+                                  widget.anim.value.clamp(0.0, 1.0),
+                                  (widget.anim.value + .45).clamp(0.0, 1.0),
+                                ],
+                                colors: const [kTeal, kIce, kCyan],
+                              ).createShader(b),
+                              child: Text(
+                                rest,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: widget.size,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: -.5,
+                                  shadows: [
+                                    Shadow(
+                                      color: kTeal.withOpacity(_glowAnim.value * .5),
+                                      blurRadius: 20,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // ── animated underline ──────────────────
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // outer glow line
+                      Container(
+                        height: 3,
+                        width: widget.size * widget.text.length * .52 * _lineAnim.value,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          gradient: LinearGradient(colors: [
+                            Colors.transparent,
+                            kCyan.withOpacity(_glowAnim.value * .35),
+                            kTeal.withOpacity(_glowAnim.value * .25),
+                            Colors.transparent,
+                          ]),
+                          boxShadow: [
+                            BoxShadow(
+                              color: kCyan.withOpacity(_glowAnim.value * .4),
+                              blurRadius: 12, spreadRadius: 1,
+                            ),
+                          ],
+                        ),
+                      ),
+                      // sharp inner line
+                      Container(
+                        height: 1.5,
+                        width: widget.size * widget.text.length * .42 * _lineAnim.value,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          gradient: LinearGradient(colors: [
+                            Colors.transparent,
+                            kCyan.withOpacity(_glowAnim.value * .9),
+                            kIce.withOpacity(_glowAnim.value * .7),
+                            kTeal.withOpacity(_glowAnim.value * .8),
+                            Colors.transparent,
+                          ]),
+                        ),
+                      ),
+
+                      // moving shine dot on line
+                      Positioned(
+                        left: (widget.size * widget.text.length * .42 *
+                            _lineAnim.value * widget.anim.value)
+                            .clamp(0, widget.size * widget.text.length * .42),
+                        child: Container(
+                          width: 6, height: 6,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: kWhite,
+                            boxShadow: [
+                              BoxShadow(
+                                color: kCyan.withOpacity(.9),
+                                blurRadius: 8, spreadRadius: 1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -584,20 +825,19 @@ class _RotatingBadge extends StatefulWidget {
 class _RotatingBadgeState extends State<_RotatingBadge>
     with TickerProviderStateMixin {
 
-  // ── data ──────────────────────────────────────────────
-  static const _items = [
-    _BadgeItem('⚡', 'Flutter Developer', [Color(0xFF22D3EE), Color(0xFF06B6D4)]),
-    _BadgeItem('🎨', 'UI/UX Enthusiast', [Color(0xFF818CF8), Color(0xFFA78BFA)]),
-    _BadgeItem('🚀', 'Mobile App Builder', [Color(0xFF34D399), Color(0xFF14B8A6)]),
-    _BadgeItem('💡', 'Problem Solver', [Color(0xFFFBBF24), Color(0xFFF97316)]),
 
-    _BadgeItem('📱', 'Android App Developer', [Color(0xFF60A5FA), Color(0xFF3B82F6)]),
-    _BadgeItem('🔥', 'Firebase Integration', [Color(0xFFF59E0B), Color(0xFFEF4444)]),
+  static const _items = [
+    _BadgeItem('📱', 'Flutter Developer', [Color(0xFF22D3EE), Color(0xFF06B6D4)]),
+    _BadgeItem('💡', 'Problem Solver', [Color(0xADA4FF35), Color(0x4DA4FF35)]),
+    _BadgeItem('🔥', 'Firebase Integration', [Color(0xFF0076BF), Color(
+        0xFF32E825)]),
     _BadgeItem('🧩', 'API Integration', [Color(0xFF4ADE80), Color(0xFF22C55E)]),
     _BadgeItem('🛠️', 'App Debugging', [Color(0xFFA78BFA), Color(0xFF8B5CF6)]),
+    _BadgeItem('🎨', 'UI/UX Enthusiast', [Color(0xFF818CF8), Color(0xFFA78BFA)]),
+
   ];
 
-  // ── controllers ───────────────────────────────────────
+
   late AnimationController _slideCtrl;
   late AnimationController _typeCtrl;
   late AnimationController _glowCtrl;
@@ -981,26 +1221,111 @@ class _PrimaryBtn extends StatelessWidget {
   );
 }
 
-class _SecondaryBtn extends StatelessWidget {
+class _SecondaryBtn extends StatefulWidget {
   final String label;
   final VoidCallback onTap;
   const _SecondaryBtn(this.label, this.onTap);
+  @override
+  State<_SecondaryBtn> createState() => _SecondaryBtnState();
+}
+
+class _SecondaryBtnState extends State<_SecondaryBtn>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<double> _shine;
+  bool _pressed = false;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-    onTap: onTap,
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        color: kCyan.withOpacity(.07),
-        border: Border.all(color: kCyan.withOpacity(.32), width: 1.5),
-        boxShadow: [BoxShadow(color: kCyan.withOpacity(.12), blurRadius: 16)],
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+        vsync: this, duration: const Duration(seconds: 2))
+      ..repeat();
+    _shine = Tween<double>(begin: -1.5, end: 2.5)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.linear));
+  }
+
+  @override
+  void dispose() { _ctrl.dispose(); super.dispose(); }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp:   (_) => setState(() => _pressed = false),
+      onTapCancel: () => setState(() => _pressed = false),
+      child: AnimatedScale(
+        scale: _pressed ? 0.94 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        child: AnimatedBuilder(
+          animation: _shine,
+          builder: (_, __) => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 13),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  kCyan.withOpacity(_pressed ? .18 : .10),
+                  kTeal.withOpacity(.05),
+                  kCyan.withOpacity(.07),
+                ],
+              ),
+              border: Border.all(color: kCyan.withOpacity(.40), width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: kCyan.withOpacity(_pressed ? .30 : .15),
+                  blurRadius: _pressed ? 28 : 18,
+                  spreadRadius: _pressed ? 1 : 0,
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(13),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // shine sweep
+                  Positioned.fill(
+                    child: Transform.translate(
+                      offset: Offset(_shine.value * 80, 0),
+                      child: Container(
+                        width: 24,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [
+                            Colors.white.withOpacity(0),
+                            Colors.white.withOpacity(.10),
+                            Colors.white.withOpacity(0),
+                          ]),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // label
+                  ShaderMask(
+                    shaderCallback: (b) => const LinearGradient(
+                      colors: [kCyan, kIce, kTeal],
+                    ).createShader(b),
+                    child: Text(
+                      widget.label,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        letterSpacing: .3,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
-      child: Text(label, style: const TextStyle(
-          color: kCyan, fontWeight: FontWeight.w700, fontSize: 14)),
-    ),
-  );
+    );
+  }
 }
 
 class _SocBtn extends StatelessWidget {

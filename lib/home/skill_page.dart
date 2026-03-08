@@ -814,9 +814,7 @@ class _RingPainter extends CustomPainter {
   bool shouldRepaint(_RingPainter o) => o.value != value || o.selected != selected;
 }
 
-// ════════════════════════════════════════════════════════
-//  RADAR PAINTER
-// ════════════════════════════════════════════════════════
+
 class _RadarPainter extends CustomPainter {
   final double progress;
   final double slowRot;
