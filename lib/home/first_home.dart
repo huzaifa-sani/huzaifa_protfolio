@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:huzaifa_portfolio/home/skill_page.dart';
+import 'package:huzaifa_portfolio/home/testimonial_Slider_State.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'ChatScreen.dart';
@@ -132,13 +133,17 @@ class _FirstHomeState extends State<FirstHome>
             child: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
               child: Column(children: [
+
+                SizedBox(height: 40,),
+                HeroGreeting(shimAnim: _shimAnim),
                 _hero(),
                 const SizedBox(height: 4),
                 _statsRow(),
                 _section('About Me',    '👤', _aboutCard()),
                 _section('Skills', '⚡', _skillsButton()),
                 _section('Projects',    '🚀', _projectsWidget()),
-                _section('Get In Touch', '📬', const ContactSection()),
+                _section('Client Reviews', '⭐', const TestimonialSlider()), // ← এটা add করুন
+               _section('Get In Touch', '📬', const ContactSection()),
                 _footer(),
               ]),
             ),
@@ -150,10 +155,10 @@ class _FirstHomeState extends State<FirstHome>
 
   Widget _skillsButton() {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const SkillPage()),
-      ),
+      // onTap: () => Navigator.push(
+      //   context,
+      //  MaterialPageRoute(builder: (_) => SkillPage()),
+      // ),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(18),
@@ -196,7 +201,7 @@ class _FirstHomeState extends State<FirstHome>
   // ═══════════════════════════════════════════════
   Widget _hero() {
     return Padding(
-      padding: const EdgeInsets.only(top: 72, bottom: 40),
+      padding: const EdgeInsets.only(top: 20, bottom: 40),
       child: Column(children: [
         // floating avatar
         AnimatedBuilder(
@@ -207,7 +212,7 @@ class _FirstHomeState extends State<FirstHome>
           ),
         ),
         const SizedBox(height: 28),
-        // shimmer name
+
         _ShimmerName(_shimAnim),
         const SizedBox(height: 12),
         // rotating badge
